@@ -8,9 +8,6 @@
 import SwiftUI
 
 struct ContentView: View {
-    
-//    @State var playerclicked: Bool = true
-//    @State var updateContent: String = ""
     @State var board = [["","",""],
                         ["","",""],
                         ["","",""]]
@@ -100,7 +97,7 @@ struct ContentView: View {
     }
     
     func startOver() {
-        updateStatus = "Tac Tic Toe"
+        updateStatus = "Tic Tac Toe"
         board[0][0] = ""
         board[0][1] = ""
         board[0][2] = ""
@@ -113,45 +110,37 @@ struct ContentView: View {
     }
     
     func clickedButton(row: Int, col: Int)  {
+        if board[row][col] != "" {
+            return
+        }
+        
         if !checkWin() {
             if xTurn {
                 board[row][col] = "X"
             } else {
                 board[row][col] = "O"
             }
-        } else {
-            updateStatus = "Win"
-            board[row][col] = ""
         }
         
+        if checkWin() {
+            updateStatus = "Win"
+        } else if board[0][0] != "" &&
+                  board[0][1] != "" &&
+                  board[0][2] != "" &&
+                  board[1][1] != "" &&
+                  board[1][2] != "" &&
+                  board[2][0] != "" &&
+                  board[2][1] != "" &&
+                  board[2][2] != "" {
+                  updateStatus = "Draw"
+        }
         
         xTurn = !xTurn
-        
-        if board[row][col] != "" {
-            return
-        }
-         
-//        for row in 0..<3 {
-//            for col in 0..<3 {
-//                if board[row][col] != "" {
-//                updateStatus = "Drawn"
-//                }
-//            }
+//        if xTurn {
+//            xTurn = false
+//        } else {
+//            xTurn = true
 //        }
-                
-
-        
-        if  board[0][0] != "" &&
-            board[0][2] != "" &&
-            board[1][1] != "" &&
-            board[1][2] != "" &&
-            board[2][0] != "" &&
-            board[2][1] != "" &&
-            board[2][2] != "" {
-            updateStatus = "Draw"
-            
-        }
-       
     }
     
     func checkWin() -> Bool {
@@ -159,7 +148,6 @@ struct ContentView: View {
             if (board[row][0] != "") &&
                 (board[row][0] == board[row][1]) &&
                 (board[row][0] == board[row][2]) {
-                updateStatus = "Win"
                 return true
             }
         }
@@ -168,7 +156,6 @@ struct ContentView: View {
             if (board[0][col] != "") &&
                 (board[0][col] == board[1][col]) &&
                 (board[0][col] == board[2][col]) {
-                updateStatus = "Win"
                 return true
             }
         }
@@ -176,22 +163,15 @@ struct ContentView: View {
         if (board[0][0] != "") &&
             (board[0][0] == board[1][1]) &&
             (board[0][0] == board[2][2]) {
-            updateStatus = "Win"
             return true
         }
 
         if (board[0][2] != "") &&
             (board[0][2] == board[1][1]) &&
             (board[0][2] == board[2][0]) {
-            updateStatus = "Win"
             return true
-        
         }
-        
-        
-        
         return false
-        
     }
 }
    
